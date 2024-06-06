@@ -50,7 +50,7 @@ body {
 .quiz-header p {
   background: var(--secondary-color);
   padding: 0.4rem 1rem;
-  color: #7a7272;
+  color: #918585;
   border-radius: 5px;
 }
 
@@ -108,7 +108,11 @@ body {
   border-radius: 5px;
   color: var(--button-text);
   opacity: 0.9;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+  -webkit-transition: opacity 0.3s ease;
+  -moz-transition: opacity 0.3s ease;
+  -ms-transition: opacity 0.3s ease;
+  -o-transition: opacity 0.3s ease;
 }
 
 .quiz-body button {
@@ -119,6 +123,7 @@ body {
 .quiz-footer button:hover,
 .btn:hover {
   opacity: 1;
+  background-color: var(--button-bg);
 }
 
 .popup-container {
@@ -177,5 +182,8 @@ button:hover {
 @media screen and (max-width: 768px) {
   .quiz-container {
     max-width: 90%;
+  }
+  .popup {
+    background-color: #a465b4; /* This color is used for mobile devices */
   }
 }
