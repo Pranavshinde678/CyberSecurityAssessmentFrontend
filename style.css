@@ -17,8 +17,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 }
 
 .quiz-container {
@@ -27,9 +26,11 @@ body {
   box-shadow: 0 0 10px 2px rgba(100, 100, 100, 0.1);
   max-width: 600px;
   width: 100%;
+  overflow: hidden;
 }
 
-.quiz-header, .quiz-footer {
+.quiz-header,
+.quiz-footer {
   padding: 1rem 2rem;
 }
 
@@ -82,6 +83,7 @@ body {
   padding: 0.7rem;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 .quiz-body ul li label {
@@ -89,7 +91,12 @@ body {
   padding: 0 0.4rem;
 }
 
-.quiz-footer button, .btn {
+.quiz-body ul li:hover {
+  background-color: var(--secondary-color);
+}
+
+.quiz-footer button,
+.btn {
   margin-bottom: 28px;
   margin-top: 12px;
   padding: 0.6rem 1.5rem;
@@ -101,15 +108,7 @@ body {
   border-radius: 5px;
   color: var(--button-text);
   opacity: 0.9;
-  transition: 0.3s ease-in-out;
-  /* -webkit-border-radius:;
-  -moz-border-radius:;
-  -ms-border-radius:;
-  -o-border-radius:;
-  -webkit-transition:;
-  -moz-transition:;
-  -ms-transition:;
-  -o-transition:; */
+  transition: opacity 0.3s ease;
 }
 
 .quiz-body button {
@@ -117,7 +116,8 @@ body {
   margin: 0 auto;
 }
 
-.quiz-footer button:hover, .btn:hover {
+.quiz-footer button:hover,
+.btn:hover {
   opacity: 1;
 }
 
@@ -134,40 +134,48 @@ body {
 }
 
 .popup {
-  background-color: #a69ecf;
+  background-color: #96699c;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  -webkit-border-radius: 12px;
-  -moz-border-radius: 12px;
-  -ms-border-radius: 12px;
-  -o-border-radius: 12px;
 }
 
-button{
-  background-color: #110d0d;
-  padding: 5px 10px;
-  color: #f7f7f7;
+button {
+  background-color: #0d0f13;
+  padding: 12px 24px;
+  color: #ffffff;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 13px;
+  font-size: 16px;
+  border: none;
+  transition: background-color 0.3s ease;
 }
 
- .correct {
+button:hover {
+  background-color: #1a1c20;
+}
+
+.correct {
   background-color: lightgreen;
- }
- 
- .wrong {
-  background-color: #e42a2a; 
- }
- 
- #timer {
-  font-size: 17px; 
+}
+
+.wrong {
+  background-color: #e42a2a;
+}
+
+#timer {
+  font-size: 17px;
   font-weight: bold;
   margin-left: 6px;
-  color: #2959b3; 
-  margin-top: 4px; 
-  text-align: center; 
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); 
+  color: #2959b3;
+  margin-top: 4px;
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .quiz-container {
+    max-width: 90%;
+  }
+}
