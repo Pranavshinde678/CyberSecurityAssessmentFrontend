@@ -290,11 +290,28 @@ function getSelected() {
 
 function nextQuestion() {
   saveBtn.disabled = false;
-  currentQuiz++;
+  
+  
+  let unansweredQuestions = 0;
+  for (let i = 0; i < quizData.length; i++) {
+    if (userAnswers[i] === undefined) {
+      unansweredQuestions++;
+    }
+  }
+  
 
+  if (unansweredQuestions > 0 && currentQuiz === quizData.length - 1) {
+    const confirmation = confirm(`You have ${unansweredQuestions} unanswered question(s). Are you sure you want to view results?`);
+    if (!confirmation) {
+      return; 
+    }
+  }
+
+  currentQuiz++;
   if (currentQuiz < quizData.length) {
     loadQuiz();
   } else {
+    
     const headerTxt = document.querySelector(".header-txt");
     headerTxt.textContent = "Results";
     headerTxt.style.fontSize = "30px";
@@ -328,17 +345,22 @@ function nextQuestion() {
       }
     });
   }
+
+  backBtn.disabled = false; 
 }
+
+
+
 
 
 function saveAnswer() {
   const answer = getSelected();
   const correctAnswer = quizData[currentQuiz].correct;
   if (!answer) {
-    return; // Exit the function if no answer is selected
+    return; 
   }
   if (userAnswers[currentQuiz] !== undefined) {
-    return; // If answer already saved, exit the function
+    return; 
   }
   answerEl.forEach((answerEl) => {
     const id = answerEl.id;
@@ -437,9 +459,9 @@ function displayResults() {
 
 function markSavedAnswer() {
   const savedAnswer = userAnswers[currentQuiz];
-  // Check if the answer for the current question has already been saved
+
   if (!savedAnswer) {
-    return; // If not saved, exit the function
+    return; 
   }
   
   answerEl.forEach((answerEl) => {
@@ -460,19 +482,19 @@ function markSavedAnswer() {
 
 function previousQuestion() {
   console.log("Navigating to previous question...");
-  saveAnswer(); // Save the answer before navigating to the previous question
+  saveAnswer();
   currentQuiz--;
 
   if (currentQuiz >= 0) {
     loadQuiz();
-    markSavedAnswer(); // Call markSavedAnswer function when going to the previous question
+    markSavedAnswer(); 
     
-    // Enable answer options for the current question
+    
     answerEl.forEach((answerEl) => {
       answerEl.disabled = false;
     });
 
-    // Change the text of the "View Results" button back to "Next" if necessary
+  
     if (currentQuiz === quizData.length - 2) {
       const btnSubmit = document.getElementById("nextBtn");
       btnSubmit.innerText = "Next";
@@ -484,6 +506,12 @@ function previousQuestion() {
     backBtn.disabled = true;
   }
 }
+
+
+
+
+
+
 
 
 
