@@ -38,7 +38,7 @@ const quizData = [
      {
       question: "While accessing your mobile banking app in a crowded area, you realize someone is closely observing your screen. What should you do?",
       a: "Continue with your transaction, ignoring the observer",
-      b: "Politely ask the person to step back",
+      b: "Engage in a conversation with the observer to distract them",
       c: "Move to a more private location before continuing",
       d: "Share your login credentials with the observer for assistance",
       correct: "c"
