@@ -70,12 +70,12 @@ const quizData = [
     },
     {
       question: "You receive a knock on your door from someone claiming to be a utility worker who needs to enter your home to check your electrical meter. What should you do?",
-      a: "Request to see the person's official identification badge before allowing them entry",
-      b: "Allow the person to enter your home to conduct the check",
+      a: "Allow the person to enter your home to conduct the check",
+      b: "Request to see the person's official identification badge before allowing them entry",
       c: "Share the news with your neighbours about the worker's visit",
       d: "Provide electric meter information to the person without verifying their identity",
-      correct: "a"
-    },   
+      correct: "b"
+    },
     {
       question: "A caller posing as your internet service provider claims your account is compromised and asks for remote computer access to resolve the issue. What action should you take?",
 
@@ -91,38 +91,38 @@ const quizData = [
       question:"You're browsing and on a random site a pop-up to get free access to Netflix appears. What's the most secure action?",
 
       a: "Follow the pop-up instructions to get the free access",
-      b: "Share the pop-up link with your friends",
-      c: "Immediately close the pop-up and do not proceed",
-      d: "Click on any links provided within the Pop-up",
-    
-      correct: "c"
+      b: "Immediately close the pop-up and do not proceed",
+      c: "Share the pop-up link with your friends",
+      d: "Click on any links provided within the pop-up",
+
+      correct: "b"
     },
     {
       question: "While using a public Wi-Fi network at a coffee shop, you receive a prompt on your device asking you to update your software. What should you do?",
-      
-      a: "Delay the update until you're on a secure network",
-      b: "Immediately proceed with the software update",
+
+      a: "Immediately proceed with the software update",
+      b: "Delay the update until you're on a secure network",
       c: "Ignore the update prompt and continue using the Wi-Fi",
       d: "Disconnect from the Wi-Fi network to avoid potential risks",
-      correct: "a"
+      correct: "b"
     },
     {
      question: "You receive an email with a link to a survey promising a gift card reward upon completion. What should you do?",
     a: "Click on the link and complete the survey to claim your reward",
-    b: "Contact the company for more information regarding the gift card",
+    b: "Delete the email and mark it as spam",
     c: "Forward the email to your contacts to spread the opportunity",
-    d: "Delete the email and mark it as spam",
-    
-   correct: "d"
+    d: "Contact the company for more information regarding the gift card",
+
+   correct: "b"
     },
     {
      question:"While installing a new application on your smartphone, you're prompted to grant extensive permissions to access your personal data. What should you do?",
-     
-     a: "Review the permissions requested and only grant those necessary for the app's function",
-     b: "Grant all permissions to install the application",
+
+     a: "Grant all permissions to install the application",
+     b: "Review the permissions requested and only grant those necessary for the app's function",
      c: "Deny all permissions and refrain from installing the application",
      d: "Grant permissions and monitor the app's behavior afterward",
-    correct: "a"
+    correct: "b"
     },
     {
       question: "You’re being texted that your parcel delivery will be delayed. In order to expedite it you need to?",
@@ -153,12 +153,12 @@ const quizData = [
     },
     {
       question: "You're at a public event and need to charge your phone. You notice a charging station with multiple USB cables available. What should you do?",
-      a: "Avoid using the charging station to prevent potential data theft",
-      b: "Use the USB cables from the charging station to charge your phone",
+      a: "Use the USB cables from the charging station to charge your phone",
+      b: "Avoid using the charging station to prevent potential data theft",
       c: "Share the charging station with other attendees to ensure everyone's devices are charged",
       d: "Plug your phone into the charging station and leave it unattended while you attend to other activities",
-      correct : "a"
-    },   
+      correct : "b"
+    },
     {
       "question": "You receive a letter in the mail claiming to be from your bank, asking you to update your account information by filling out a form and mailing it back. What should you do?",
       "a": "Fill out the form and mail it back as instructed",
@@ -184,50 +184,24 @@ const backBtn = document.getElementById("backBtn");
 const nextBtn = document.getElementById("nextBtn");
 nextBtn.disabled = true;
 backBtn.addEventListener("click", previousQuestion);
+
 function startQuiz() {
+  console.log('Quiz started');
+
   nextBtn.disabled = false;
-  // backBtn.disabled=false;
+  // backBtn.disabled = false;
+
   startTimer(20 * 60);
   document.getElementById('popupContainer').style.display = 'none';
   document.getElementById('quiz-container').style.display = 'block';
-  
 }
 
 const saveBtn = document.getElementById("saveBtn");
 saveBtn.addEventListener("click", saveAnswer);
 nextBtn.addEventListener("click", nextQuestion);
 
-
-
-
-let userAnswers = []; 
-
-// function saveAnswer() {
-//   const answer = getSelected();
-//   const correctAnswer = quizData[currentQuiz].correct;
-  
-
-//   answerEl.forEach((answerEl) => {
-//     const id = answerEl.id;
-//     if (id === correctAnswer) {
-//       answerEl.parentElement.classList.add("correct");
-//     } else {
-//       if (id === answer) {
-//         answerEl.parentElement.classList.add("wrong");
-//       }
-//     }
-//   });
-
-
-//   const isCorrect = answer === correctAnswer;
-//   const feedback = document.createElement("p");
-//   //feedback.textContent = isCorrect ? "Correct" : "Incorrect";
-//   feedback.classList.add(isCorrect ? "correct-feedback" : "incorrect-feedback");
-//   footerEl.appendChild(feedback);
-
-//   saveBtn.disabled = true; 
-// }
-
+let userAnswers = [];
+let scoredQuestions = []; // New array to track scored questions
 
 const quiz = document.querySelector(".quiz-body");
 const answerEl = document.querySelectorAll(".answer");
@@ -247,7 +221,6 @@ let score = 0;
 
 loadQuiz();
 
-
 function loadQuiz() {
   deselectAnswers();
   markSavedAnswer();
@@ -261,8 +234,16 @@ function loadQuiz() {
   answerEl.forEach((answerEl) => {
     answerEl.disabled = false;
   });
+  if (currentQuiz === quizData.length - 1) {
+    nextBtn.innerText = "View Results";
+    nextBtn.removeEventListener("click", nextQuestion);
+    nextBtn.addEventListener("click", displayResults);
+  } else {
+    nextBtn.innerText = "Next";
+    nextBtn.removeEventListener("click", displayResults);
+    nextBtn.addEventListener("click", nextQuestion);
+  }
 }
-
 
 function deselectAnswers() {
   answerEl.forEach((answerEl) => {
@@ -276,7 +257,6 @@ function deselectAnswers() {
   });
 }
 
-
 function getSelected() {
   let answer;
   answerEl.forEach((answerEls) => {
@@ -287,80 +267,35 @@ function getSelected() {
   return answer;
 }
 
-
 function nextQuestion() {
   saveBtn.disabled = false;
-  
-  
-  let unansweredQuestions = 0;
-  for (let i = 0; i < quizData.length; i++) {
-    if (userAnswers[i] === undefined) {
-      unansweredQuestions++;
-    }
-  }
-  
-
-  if (unansweredQuestions > 0 && currentQuiz === quizData.length - 1) {
-    const confirmation = confirm(`You have ${unansweredQuestions} unanswered question(s). Are you sure you want to view results?`);
-    if (!confirmation) {
-      return; 
-    }
-  }
 
   currentQuiz++;
+
   if (currentQuiz < quizData.length) {
     loadQuiz();
-  } else {
-    
-    const headerTxt = document.querySelector(".header-txt");
-    headerTxt.textContent = "Results";
-    headerTxt.style.fontSize = "30px";
-    const scorePercentage = Math.round((score / quizData.length) * 100);
-    quiz.innerHTML = `<h1>You answered ${score}/${quizData.length} questions correctly</h1>
-    <div style="text-align: justify; padding-bottom:20px">
-    <h1>Your Score Percentage is ${scorePercentage}%</h1>
-    </div>
-    <button type="button" onclick="location.reload()">Reload</button>`;
-    footerEl.style.display = "none";
-    document.getElementById('timer').style.display = 'none';
   }
 
   if (currentQuiz === quizData.length - 1) {
-    const btnSubmit = document.getElementById("nextBtn");
-    btnSubmit.innerText = "View Results";
-    btnSubmit.addEventListener("click", function () {
-      console.log("Submit button clicked");
-      stopTimer();
-      const answers = getSelected();
-    
-      if (answers) {
-        const currentQuizData = quizData[currentQuiz];
-        const correctAnswer = currentQuizData.correct;
-    
-        if (answers === correctAnswer) {
-          score++; 
-        }
-    
-        nextQuestion(); 
-      }
-    });
+    nextBtn.innerText = "View Results";
+    nextBtn.removeEventListener("click", nextQuestion);
+    nextBtn.addEventListener("click", displayResults);
+  } else {
+    nextBtn.innerText = "Next";
+    nextBtn.removeEventListener("click", displayResults);
+    nextBtn.addEventListener("click", nextQuestion);
   }
 
-  backBtn.disabled = false; 
+  backBtn.disabled = false;
 }
-
-
-
-
-
 function saveAnswer() {
   const answer = getSelected();
   const correctAnswer = quizData[currentQuiz].correct;
   if (!answer) {
-    return; 
+    return;
   }
   if (userAnswers[currentQuiz] !== undefined) {
-    return; 
+    return;
   }
   answerEl.forEach((answerEl) => {
     const id = answerEl.id;
@@ -373,15 +308,12 @@ function saveAnswer() {
     }
   });
 
-
   const isCorrect = answer === correctAnswer;
   const feedback = document.createElement("p");
   feedback.classList.add(isCorrect ? "correct-feedback" : "incorrect-feedback");
   footerEl.appendChild(feedback);
-  
-  
+
   nextBtn.disabled = false;
-  // saveBtn.disabled = true; 
   if (userAnswers[currentQuiz] === undefined) {
     userAnswers[currentQuiz] = answer;
   }
@@ -390,59 +322,61 @@ function saveAnswer() {
   console.log("Correct Answer:", correctAnswer);
   console.log("Is Correct?", isCorrect);
 
-  if (isCorrect) {
-    score++; 
+  if (isCorrect && !scoredQuestions.includes(currentQuiz)) {
+    score++;
+    scoredQuestions.push(currentQuiz); // Mark the question as scored
     console.log("Score:", score);
   }
 }
 
-let timerRunning = true;
 
+let timerRunning = true;
+let remainingTimeInSeconds = 20 * 60;
 
 function startTimer(duration) {
   let timer = duration, minutes, seconds;
   const timerDisplay = document.getElementById('timer');
 
   const intervalID = setInterval(function () {
-    console.log("Interval Running..."); 
-    if (!timerRunning){
+    console.log("Interval Running...");
+    if (!timerRunning) {
       clearInterval(intervalID);
       console.log("Timer Stopped");
-      
       return;
     }
-    console.log("Timer Running..."); 
+    console.log("Timer Running...");
     minutes = parseInt(timer / 60, 10);
     seconds = parseInt(timer % 60, 10);
 
     minutes = minutes < 10 ? '0' + minutes : minutes;
     seconds = seconds < 10 ? '0' + seconds : seconds;
-    
-    if (timer < 300) { 
-      timerDisplay.style.color = 'red'; 
+
+    if (timer < 300) {
+      timerDisplay.style.color = 'red';
     }
-  
+
     timerDisplay.textContent = minutes + ':' + seconds;
 
     if (--timer < 0) {
       timerDisplay.textContent = 'Time\'s up!';
       timerDisplay.style.fontSize = '28px';
-      timerDisplay.style.fontWeight="bold";
-      timerDisplay.style.color="black";
-      timerDisplay.style.PaddingBottom="11  px";
+      timerDisplay.style.fontWeight = "bold";
+      timerDisplay.style.color = "black";
+      timerDisplay.style.PaddingBottom = "11px";
       displayResults();
       clearInterval(intervalID);
     }
   }, 1000);
 }
 
-
-
 function stopTimer() {
   console.log("Stopping Timer...");
   timerRunning = false;
 }
 
+function resumeTimer() {
+  startTimer(remainingTimeInSeconds);
+}
 
 function displayResults() {
   const headerTxt = document.querySelector(".header-txt");
@@ -455,15 +389,19 @@ function displayResults() {
   </div>
   <button type="button" onclick="location.reload()">Reload</button>`;
   footerEl.style.display = "none";
+  stopTimer();
+  document.getElementById('timer').style.display = 'none';
+  const quizLength = quizData.length;
+  handleQuizCompletion(employeeIDInput.value.trim(), score, quizLength);
 }
 
 function markSavedAnswer() {
   const savedAnswer = userAnswers[currentQuiz];
 
   if (!savedAnswer) {
-    return; 
+    return;
   }
-  
+
   answerEl.forEach((answerEl) => {
     if (answerEl.id === savedAnswer) {
       answerEl.checked = true;
@@ -473,28 +411,23 @@ function markSavedAnswer() {
         answerEl.parentElement.classList.add("correct");
       } else {
         answerEl.parentElement.classList.add("wrong");
-        
       }
     }
   });
 }
 
-
 function previousQuestion() {
   console.log("Navigating to previous question...");
-  // saveAnswer();
   currentQuiz--;
 
   if (currentQuiz >= 0) {
     loadQuiz();
-    markSavedAnswer(); 
-    
-    
+    markSavedAnswer();
+
     answerEl.forEach((answerEl) => {
       answerEl.disabled = false;
     });
 
-  
     if (currentQuiz === quizData.length - 2) {
       const btnSubmit = document.getElementById("nextBtn");
       btnSubmit.innerText = "Next";
@@ -506,12 +439,5 @@ function previousQuestion() {
     backBtn.disabled = true;
   }
 }
-
-
-
-
-
-
-
 
 
