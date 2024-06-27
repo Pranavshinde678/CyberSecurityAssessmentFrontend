@@ -111,7 +111,7 @@ const quizData = [
     a: "Click on the link and complete the survey to claim your reward",
     b: "Delete the email and mark it as spam",
     c: "Forward the email to your contacts to spread the opportunity",
-    d: "Contact the company for more information regarding the gift card",
+    d: "Save the email for later without taking any action",
 
    correct: "b"
     },
@@ -146,7 +146,7 @@ const quizData = [
 
       a: "Provide the requested information to avoid any legal issues",
       b: "Politely decline and hang up",
-      c: "Ask for the caller's credentials and verify their identity",
+      c: "Ask the caller to email you the request instead",
       d: "Give false information to test the caller's legitimacy",
       
       correct: "b"
